@@ -1,0 +1,33 @@
+/*-- scss:defaults --*/
+$body-bg: #131412;
+$body-color: #ECE9E1;
+$link-color: #F59E4B;
+$border-color: #2E2F2A;
+$text-muted: #A49F93;
+$card-bg: #1C1D1A;
+$code-bg: #1C1D1A;
+$headings-font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+$font-family-sans-serif: "Source Sans 3", system-ui, "-apple-system", "Segoe UI", sans-serif;
+$font-family-monospace: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+$border-radius: 4px;
+
+/*-- scss:rules --*/
+:root {
+  --bg: #131412;
+  --surface: #1C1D1A;
+  --ink: #ECE9E1;
+  --muted: #A49F93;
+  --line: #2E2F2A;
+  --accent: #F59E4B;
+  --accent-soft: #3A2510;
+  --ours: #4FC3B5;
+  --ours-soft: #0F3230;
+  --gain: #5CC98E;
+  --loss: #F27D6B;
+  --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  --font-body: "Source Sans 3", system-ui, "-apple-system", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  --radius-md: 4px;
+  --space: 8px;
+  --measure: 70ch;
+}

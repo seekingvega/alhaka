@@ -1,0 +1,310 @@
+{
+  "$description": "Keystone: one marker on a quiet field. The accent means 'the distilled idea' and nothing else; the ~430 submissions are the field and stay in ink and muted greys, so an orange line is always the thing worth building.",
+  "color": {
+    "light": {
+      "bg": {
+        "$type": "color",
+        "$value": "#F7F6F2",
+        "$extensions": {
+          "design-derivation": {
+            "from": "constraint"
+          }
+        },
+        "$description": "warm paper ground; the field stays quiet on it"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "#FFFFFF",
+        "$extensions": {
+          "design-derivation": {
+            "from": "constraint"
+          }
+        },
+        "$description": "cards, listing tiles, table headers"
+      },
+      "ink": {
+        "$type": "color",
+        "$value": "#1C1B18",
+        "$extensions": {
+          "design-derivation": {
+            "from": "audience"
+          }
+        }
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "#625F57",
+        "$extensions": {
+          "design-derivation": {
+            "from": "audience"
+          }
+        },
+        "$description": "team names, dates, vote counts"
+      },
+      "line": {
+        "$type": "color",
+        "$value": "#DDD9CF",
+        "$extensions": {
+          "design-derivation": {
+            "from": "constraint"
+          }
+        },
+        "$description": "hairline rules and table borders"
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "#C2410C",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        },
+        "$description": "the marker: links, the distilled idea, category counts"
+      },
+      "accent-soft": {
+        "$type": "color",
+        "$value": "#FBE7D6",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        },
+        "$description": "tinted callouts for 'notable' lines"
+      },
+      "ours": {
+        "$type": "color",
+        "$value": "#0F766E",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        },
+        "$description": "marks our own entry (PACA) wherever it appears"
+      },
+      "ours-soft": {
+        "$type": "color",
+        "$value": "#D5F0EC",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      },
+      "gain": {
+        "$type": "color",
+        "$value": "#1F7A4D",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        },
+        "$description": "P&L up, in charts and tables only"
+      },
+      "loss": {
+        "$type": "color",
+        "$value": "#B42318",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        },
+        "$description": "P&L down, in charts and tables only"
+      }
+    },
+    "dark": {
+      "bg": {
+        "$type": "color",
+        "$value": "#131412",
+        "$extensions": {
+          "design-derivation": {
+            "from": "constraint"
+          }
+        },
+        "$description": "warm near-black so the marker still reads as a marker"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "#1C1D1A",
+        "$extensions": {
+          "design-derivation": {
+            "from": "constraint"
+          }
+        }
+      },
+      "ink": {
+        "$type": "color",
+        "$value": "#ECE9E1",
+        "$extensions": {
+          "design-derivation": {
+            "from": "audience"
+          }
+        }
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "#A49F93",
+        "$extensions": {
+          "design-derivation": {
+            "from": "audience"
+          }
+        }
+      },
+      "line": {
+        "$type": "color",
+        "$value": "#2E2F2A",
+        "$extensions": {
+          "design-derivation": {
+            "from": "constraint"
+          }
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "#F59E4B",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      },
+      "accent-soft": {
+        "$type": "color",
+        "$value": "#3A2510",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      },
+      "ours": {
+        "$type": "color",
+        "$value": "#4FC3B5",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      },
+      "ours-soft": {
+        "$type": "color",
+        "$value": "#0F3230",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      },
+      "gain": {
+        "$type": "color",
+        "$value": "#5CC98E",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      },
+      "loss": {
+        "$type": "color",
+        "$value": "#F27D6B",
+        "$extensions": {
+          "design-derivation": {
+            "from": "content"
+          }
+        }
+      }
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "display": {
+      "$value": [
+        "JetBrains Mono",
+        "ui-monospace",
+        "SFMono-Regular",
+        "Menlo",
+        "monospace"
+      ],
+      "$extensions": {
+        "design-derivation": {
+          "from": "audience"
+        }
+      },
+      "$description": "mono for structure: post titles, section headings, category labels, counts"
+    },
+    "body": {
+      "$value": [
+        "Source Sans 3",
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "sans-serif"
+      ],
+      "$extensions": {
+        "design-derivation": {
+          "from": "audience"
+        }
+      },
+      "$description": "sans for prose and the long project listings"
+    },
+    "mono": {
+      "$value": [
+        "JetBrains Mono",
+        "ui-monospace",
+        "SFMono-Regular",
+        "Menlo",
+        "monospace"
+      ],
+      "$extensions": {
+        "design-derivation": {
+          "from": "audience"
+        }
+      },
+      "$description": "code cells, uids, tickers"
+    }
+  },
+  "radius": {
+    "md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      },
+      "$extensions": {
+        "design-derivation": {
+          "from": "audience"
+        }
+      },
+      "$description": "tight corners; notes, not a marketing site"
+    }
+  },
+  "space": {
+    "base": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      },
+      "$extensions": {
+        "design-derivation": {
+          "from": "goal"
+        }
+      },
+      "$description": "dense enough to scan a 76-item category on one screen"
+    }
+  },
+  "measure": {
+    "body": {
+      "$type": "dimension",
+      "$value": {
+        "value": 70,
+        "unit": "ch"
+      },
+      "$extensions": {
+        "design-derivation": {
+          "from": "goal"
+        }
+      },
+      "$description": "listing lines and definitions wrap without becoming a wall"
+    }
+  }
+}

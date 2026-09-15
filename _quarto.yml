@@ -1,5 +1,10 @@
 project:
   type: website
+  render:
+    - "**/*.qmd"
+    - "**/*.md"
+    - "!CLAUDE.md"
+    - "!design.md"
 
 website:
   title: "Alpaca Hackathon Knowledge Agent"
@@ -12,5 +17,8 @@ website:
         href: https://twitter.com
 format:
   html:
-    theme: cosmo
+    # Themes are rendered from design.tokens.json; see design.md. Edit the JSON, not the theme-*.scss files.
+    theme:
+      light: [cosmo, theme-light.scss, site.scss]
+      dark: [cosmo, theme-dark.scss, site.scss]
     css: styles.css

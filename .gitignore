@@ -219,3 +219,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# lablab submissions cache (hackathon-submissions skill)
+/logs/

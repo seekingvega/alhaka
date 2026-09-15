@@ -1,0 +1,79 @@
+/*-- scss:defaults --*/
+// Site rules layered after the generated theme-light.scss / theme-dark.scss.
+// Tokens come from design.tokens.json (see design.md); this file only applies them.
+$web-font-path: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap";
+
+/*-- scss:rules --*/
+body {
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+// Structure in mono; the field stays in ink.
+h1, h2, h3, h4, .navbar-brand, .listing-title, .quarto-title .title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+h2 {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: calc(var(--space) * 0.75);
+  margin-top: calc(var(--space) * 5);
+}
+
+// Navbar on the same paper as the page, not cosmo's blue bar.
+.navbar {
+  background-color: var(--bg) !important;
+  border-bottom: 1px solid var(--line);
+}
+.navbar .navbar-brand, .navbar .nav-link { color: var(--ink) !important; }
+.navbar .nav-link:hover { color: var(--accent) !important; }
+
+// Links: the marker, underlined on hover only.
+a { text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+
+// Prose measure; tables and code stay full width.
+#quarto-document-content p,
+#quarto-document-content li,
+#quarto-document-content blockquote { max-width: var(--measure); }
+
+// Metadata is muted.
+.quarto-title-meta, .listing-date, .listing-author, .quarto-categories, .listing-categories {
+  color: var(--muted);
+}
+.quarto-category, .listing-category {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--muted) !important;
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+}
+
+// Listing page.
+.quarto-listing-default .quarto-post { border-bottom: 1px solid var(--line); padding: calc(var(--space) * 2) 0; }
+.quarto-listing-default .listing-title { font-size: 1.15rem; }
+
+// Code cells: surface with a hairline, no pill.
+pre, code { font-family: var(--font-mono); }
+div.sourceCode, pre.sourceCode, pre {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+p code, li code, td code { background-color: var(--surface); border: 1px solid var(--line); padding: 0 0.25em; border-radius: var(--radius-md); }
+
+// Tables: surface header row, line borders.
+table { border-color: var(--line); }
+table thead th { background-color: var(--surface); border-bottom: 2px solid var(--line); font-family: var(--font-display); font-weight: 500; font-size: 0.9em; }
+table td, table th { border-color: var(--line); }
+
+// Keystone helpers for posts.
+.count { font-family: var(--font-display); color: var(--accent); }
+.notable { background-color: var(--accent-soft); border-left: 3px solid var(--accent); padding: var(--space) calc(var(--space) * 1.5); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.ours { color: var(--ours); font-family: var(--font-display); }
+.ours-soft { background-color: var(--ours-soft); }
+.gain { color: var(--gain); }
+.loss { color: var(--loss); }
