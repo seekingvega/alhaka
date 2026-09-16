@@ -8,8 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon)
 on lablab.ai and distills them into notes for building agentic trading prototypes. Our own
 entry is PACA (`win-or-die/paca-position-aware-agentic-capital-allocator`), referenced as
-"ours" in the pages and scripts. No trading system lives here yet; the repo is research
-tooling, a generated research page, and a Quarto website.
+"ours" in the pages and scripts. `main` is research tooling, a generated research page, and a
+Quarto website. The repo is becoming a monorepo: PACA is to live on its own branch, and code
+borrowed from other submissions gets modified and tested on further branches, so trading code
+is never on `main`.
 
 Three parts:
 

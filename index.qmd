@@ -11,8 +11,10 @@ on lablab.ai and distills it into notes for building agentic trading prototypes.
 [PACA, the Position-aware Agentic Capital Allocator](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/win-or-die/paca-position-aware-agentic-capital-allocator);
 everything else here is about learning from the other 426.
 
-No trading system lives in this repository. It holds the research tooling, the generated
-research pages, and the posts that follow up on them.
+The repository is a monorepo in the making. The main branch holds the research tooling, the
+generated research pages, and the posts that follow up on them. Trading code lives on other
+branches: PACA on its own, and code borrowed from other submissions, modified and tested, on
+branches of their own.
 
 :::{.callout-tip}
 ## Start here
