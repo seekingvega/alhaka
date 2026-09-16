@@ -222,3 +222,5 @@ __marimo__/
 
 # lablab submissions cache (hackathon-submissions skill)
 /logs/
+
+**/*.quarto_ipynb
