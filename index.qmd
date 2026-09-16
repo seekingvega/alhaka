@@ -1,14 +1,54 @@
 ---
 title: "alhaka"
-listing:
-  contents: posts
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-  image-height: 120px
-page-layout: full
+description: "Alpaca Hackathon Knowledge Agent: notes distilled from the 427 public submissions to the Alpaca AI Trading Agents Hackathon, for building agentic trading prototypes."
+toc: false
 ---
 
+alhaka reads what other teams built for the
+[Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon)
+on lablab.ai and distills it into notes for building agentic trading prototypes. The field is
+427 public submissions. Our own entry is
+[PACA, the Position-aware Agentic Capital Allocator](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/win-or-die/paca-position-aware-agentic-capital-allocator);
+everything else here is about learning from the other 426.
 
+No trading system lives in this repository. It holds the research tooling, the generated
+research pages, and the posts that follow up on them.
+
+:::{.callout-tip}
+## Start here
+
+[What the other teams built](pages/hackathon-submissions.qmd) maps every submission to one
+of 13 trading approaches, with a one-line notable idea per project.
+:::
+
+## What is here
+
+- **[The category map](pages/hackathon-submissions.qmd).** All 427 projects, grouped by primary
+  trading approach rather than asset class or tech stack, with category definitions, community
+  vote counts and a notable idea for each. Generated, so it can be rebuilt when the field changes.
+- **[Posts](posts.qmd).** Hand-written follow-up studies that ask one question of the field.
+  The first, [Market-structure ideas in the hackathon field](posts/market-structure-submissions.qmd),
+  looks for volume profile, order flow, dealer positioning and auction theory across the submissions.
+- **[About](about.qmd).** Who is behind this.
+
+## How the map was built
+
+Submissions were pulled from lablab's public submissions API. Only each team's written summary,
+the same text shown on its lablab page, was read; presentations, repositories and demos were not
+opened. Projects were split into batches and read by parallel LLM subagents in two passes. The
+first pass proposed categories from what each project's agents actually do, and those proposals
+were merged by hand into a taxonomy. The second pass assigned every project to exactly one
+category and wrote its notable line, grounded in the summary alone. A deterministic script then
+merged the assignments and rendered the page, refusing to write if any project was missing,
+duplicated or filed under an unknown category.
+
+Three caveats apply throughout. Summaries are marketing copy capped at 2,000 characters, so a
+project may do more or less than it claims. A project combining several approaches sits under its
+primary one. Vote counts are community likes on lablab, not judging results.
+
+:::{.callout-tip}
+## Read the field
+
+Start with the [category definitions](pages/hackathon-submissions.qmd#category-definitions),
+then jump to the approach closest to what you are building.
+:::

@@ -1,18 +1,19 @@
-# Market-structure ideas in the hackathon field
+---
+title: "Market-structure ideas in the hackathon field"
+author: "im@johnho.ca"
+date: "2026-09-09"
+categories: [market-structure]
+description: "Which of the 427 Alpaca hackathon submissions use volume profile, order flow, dealer positioning or auction theory."
+toc: true
+---
 
-A follow-up to [HACKATHON_SUBMISSIONS.md](HACKATHON_SUBMISSIONS.md) answering one
+A follow-up to [the category map](../pages/hackathon-submissions.qmd) answering one
 question: which of the 427 Alpaca AI Trading Agents Hackathon submissions use
 market-structure concepts such as volume profile, order flow, dealer positioning or
 auction theory? Method: a keyword scan over every project's lablab summary on
 2026-09-09, then a read of the matching sentences to drop false positives
 ("tape" as audit tape, "sweep" as parameter sweep, "POC" as proof of concept).
 Summaries only; repositories and presentations were not opened.
-
-Contents: [Headline](#headline) · [Dealer gamma positioning](#dealer-gamma-positioning) ·
-[Smart-money price structure](#smart-money-price-structure) ·
-[Options order flow](#options-order-flow) · [Auction and level-based ideas](#auction-and-level-based-ideas) ·
-[Loose use of the words](#loose-use-of-the-words) · [What this means for PACA](#what-this-means-for-paca) ·
-[Caveats](#caveats)
 
 ## Headline
 
@@ -135,7 +136,7 @@ replace it.
   VWAP before entry is a one-line filter on data we have.
 
 Both would be **methodology changes** under `CLAUDE.md` and need explicit approval
-and a study like [TAKE_PROFIT.md](TAKE_PROFIT.md) before shipping. Nothing here is
+and a study like `TAKE_PROFIT.md` before shipping. Nothing here is
 adopted; this page records what exists.
 
 ## Caveats
@@ -145,5 +146,5 @@ adopted; this page records what exists.
 - Vote counts are lablab community likes, not judging results. Every project in the
   four idea sections has three votes or fewer, so the field did not reward market
   structure with attention either.
-- Each project's primary category is in [HACKATHON_SUBMISSIONS.md](HACKATHON_SUBMISSIONS.md);
+- Each project's primary category is in [the category map](../pages/hackathon-submissions.qmd);
   most of these sit under directional options or volatility relative value.

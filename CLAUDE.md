@@ -8,19 +8,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon)
 on lablab.ai and distills them into notes for building agentic trading prototypes. Our own
 entry is PACA (`win-or-die/paca-position-aware-agentic-capital-allocator`), referenced as
-"ours" in the docs and scripts. No trading system lives here yet; the repo is research
-tooling, generated research docs, and a Quarto blog scaffold.
+"ours" in the pages and scripts. No trading system lives here yet; the repo is research
+tooling, a generated research page, and a Quarto website.
 
 Three parts:
 
-- `docs/` — generated research. `HACKATHON_SUBMISSIONS.md` is the category map of every
-  submission (rendered by the skill below, do not hand-edit). `MARKET_STRUCTURE_SUBMISSIONS.md`
-  is a hand-written follow-up study that links back to it.
+- `pages/` — generated research. `hackathon-submissions.qmd` is the category map of every
+  submission (rendered by the skill below, do not hand-edit).
 - `.claude/skills/hackathon-submissions/` — the pipeline that produces the category map
   (see below). The only code in the repo.
-- Quarto website (`_quarto.yml`, `index.qmd`, `about.qmd`, `posts/`) — a blog listing at
-  `index.qmd` over `posts/*/index.qmd`. The two existing posts, the about page, and the
-  navbar links are untouched Quarto template placeholders (fake authors, `https://github.com/`).
+- Quarto website (`_quarto.yml`, `index.qmd`, `posts.qmd`, `about.qmd`, `posts/`) —
+  `index.qmd` is a prose landing page, `posts.qmd` is the blog listing over flat
+  `posts/*.qmd` files (hand-written follow-up studies such as
+  `posts/market-structure-submissions.qmd`, which links to the category map). The navbar is
+  Submissions · Posts · About · GitHub. `about.qmd` is still an untouched Quarto template
+  placeholder (fake social links). Only `*.qmd` files render; markdown files never do.
 
 ## Commands
 
@@ -32,7 +34,7 @@ quarto render           # builds to _site/ (gitignored, as is .quarto/)
 ```
 
 Posts freeze computational output (`posts/_metadata.yml`), so a changed code cell needs
-`quarto render posts/<name>/index.qmd` to refresh its cache.
+`quarto render posts/<name>.qmd` to refresh its cache.
 
 Hackathon submissions pipeline (stdlib-only Python, no pyproject; run with `uv run python`):
 
@@ -60,9 +62,10 @@ shape, which is what you need to understand edits across its five files:
    `taxonomy.json` (judgment step; show the user).
 4. **Pass 2** — one subagent per batch follows `pass2_assign.md` and assigns every project
    to exactly one category with a one-line "notable".
-5. `build` merges assignments deterministically and renders `docs/HACKATHON_SUBMISSIONS.md`.
-   It refuses to write if any uid is missing, duplicated, or in an unknown category. Fix the
-   assignment files rather than weakening that gate.
+5. `build` merges assignments deterministically and renders `pages/hackathon-submissions.qmd`
+   (YAML frontmatter with `toc: true`, then markdown using the `.notable`, `.ours` and `.count`
+   helper classes). It refuses to write if any uid is missing, duplicated, or in an unknown
+   category. Fix the assignment files rather than weakening that gate.
 
 Invariants that are easy to break:
 
@@ -71,12 +74,14 @@ Invariants that are easy to break:
 - Categorize by primary trading approach, not asset class, tech stack, or "LLM proposes,
   Python gate disposes" (near-universal, so not a category). Tighten tie-break rules in
   `pass2_assign.md` before adding categories.
-- Markdown anchors follow GitHub's rule (one hyphen per space, punctuation dropped), so
-  "a / b" → `a--b`; `anchor()` in `submissions.py` implements this and the TOC depends on it.
+- In-page anchors follow pandoc's rule, which Quarto uses for heading ids (punctuation
+  dropped, whitespace runs collapsed to one hyphen), so "a / b" → `a-b`; `anchor()` in
+  `submissions.py` implements this and the category-definitions table depends on it. GitHub's
+  `a--b` rule is wrong for the rendered site.
 - The pipeline runs in two stages with a mandatory stop: test on the top 10, report, then
   wait for an explicit go-ahead before the full ~430-project run. Do not collapse them.
 - Be gentle with lablab: about 30 sequential GETs total, no retry loops, no parallel fetches.
-- The skill commits only the doc and README at the end and never pushes.
+- The skill commits only the generated qmd and README at the end and never pushes.
 
 The `logs/` cache is gitignored; regenerate it with `fetch` rather than committing it.
 
@@ -95,12 +100,13 @@ uv run https://ohjho.github.io/dotfiles/scripts/design_tokens.py render scss des
 uv run https://ohjho.github.io/dotfiles/scripts/design_tokens.py render scss design.tokens.json --theme dark  -o theme-dark.scss
 ```
 
-Posts should use the helper classes in `site.scss` (`.notable`, `.count`, `.ours`, `.gain`,
-`.loss`) rather than inline colours, and never a title banner or a second accent.
+Posts and the generated page should use the helper classes in `site.scss` (`.notable`,
+`.count`, `.ours`, `.gain`, `.loss`) rather than inline colours, and never a title banner or a
+second accent.
 
 ## Skills
 
 `design-derivation`, `quarto-writeup`, and `surge-artifacts` under `.claude/skills/` are
 symlinks into `../_GADA_experiments/dotfiles/` on the author's machine, not repo content.
-They resolve only there; `quarto-writeup` is the intended path for turning research in
-`docs/` into posts under `posts/`.
+They resolve only there; `quarto-writeup` is the intended path for turning research into
+posts under `posts/`.

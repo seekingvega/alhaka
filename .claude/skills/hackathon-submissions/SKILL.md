@@ -1,13 +1,13 @@
 ---
 name: hackathon-submissions
-description: Categorize every submission of a lablab.ai hackathon from the teams' written summaries into docs/HACKATHON_SUBMISSIONS.md, organized by trading approach with a TOC, definitions and a one-line "notable idea" per project, using parallel subagents in two passes (propose categories, then assign). Use when the user asks to "categorize the hackathon submissions", "see what the other teams built", "learn from other teams' submissions", "pull the lablab submissions", or wants a hackathon post-mortem of the field.
+description: Categorize every submission of a lablab.ai hackathon from the teams' written summaries into the Quarto page pages/hackathon-submissions.qmd, organized by trading approach with a TOC, definitions and a one-line "notable idea" per project, using parallel subagents in two passes (propose categories, then assign). Use when the user asks to "categorize the hackathon submissions", "see what the other teams built", "learn from other teams' submissions", "pull the lablab submissions", or wants a hackathon post-mortem of the field.
 ---
 
 # Hackathon submissions
 
 Turn the public lablab.ai submission summaries of one hackathon into a category map the team
 can learn from. Data comes from lablab's JSON API through `submissions.py` (beside this file);
-categorization is done by parallel subagents reading batch files; the markdown is rendered
+categorization is done by parallel subagents reading batch files; the Quarto page is rendered
 deterministically. Test on the top 10 first, then run the full set on a separate go-ahead.
 
 ## Guardrails
@@ -99,7 +99,7 @@ uv run python $SKILL/submissions.py build --event $EVENT --top 10 --batch-size 5
   --taxonomy $SCRATCH/taxonomy.json --assignments $SCRATCH/assign --ours <team_slug/slug>
 ```
 
-Read the generated `docs/HACKATHON_SUBMISSIONS.md` end to end. Report the taxonomy that
+Read the generated `pages/hackathon-submissions.qmd` end to end. Report the taxonomy that
 emerged, one borderline call you had to make, the cost per batch, and what to adjust. **Stop
 here** and wait for the go-ahead.
 
@@ -131,25 +131,28 @@ Budget from 2026: about 50k subagent tokens and 90 s per 20-project batch per pa
 ```bash
 uv run python - <<'EOF'
 import re
-md=open('docs/HACKATHON_SUBMISSIONS.md').read()
-heads={re.sub(r'[^\w\s-]','',h.strip().lower()).replace(' ','-') for h in re.findall(r'^## (.+)$',md,re.M)}
+md=open('pages/hackathon-submissions.qmd').read()
+heads={'-'.join(re.sub(r'[^\w\s.-]','',h.strip().lower()).split()) for h in re.findall(r'^## (.+)$',md,re.M)}
 links=set(re.findall(r'\]\(#([^)]+)\)',md))
 print('unresolved anchors:', links-heads or 'none')
-print('TOC sum:', sum(int(x) for x in re.findall(r'\((\d+)\)\]\(#',md)), '| entries:', md.count('\n- **['))
-w=[len(n.split()) for n in re.findall(r'\*Notable:\* (.+)',md)]; print('notables:',len(w),'max words',max(w))
-print('ours marked:', '**(ours)**' in md)
+print('table sum:', sum(int(x) for x in re.findall(r'\| \[(\d+)\]\{\.count\} \|',md)), '| entries:', md.count('\n- **['))
+w=[len(n.split()) for n in re.findall(r'\*Notable:\* (.+?)\]\{\.notable\}',md)]; print('notables:',len(w),'max words',max(w))
+print('ours marked:', '{.ours}' in md)
 EOF
+quarto render pages/hackathon-submissions.qmd 2>&1 | tail -3
 ```
 
 Spot-check three project URLs return HTTP 200 (`curl -sL -o /dev/null -w '%{http_code}'`).
-GitHub anchors keep one hyphen per space and drop punctuation, so "a / b" becomes `a--b`;
-the script's `anchor()` matches that rule.
+Anchors follow pandoc's rule, which Quarto uses for heading ids: punctuation dropped and
+whitespace runs collapsed to one hyphen, so "a / b" becomes `a-b`; the script's `anchor()`
+matches that rule (GitHub's `a--b` rule does not apply to the rendered site). The render
+must finish without unresolved-link warnings.
 
 ## Step 5 — Link and commit
 
-Add or refresh one sentence in `README.md` pointing at `docs/HACKATHON_SUBMISSIONS.md` (in
-2026 it sits at the end of the Methodology section's "deeper studies" paragraph). Then commit
-only the doc and README, message naming the event, project count and category count. Do not
+Add or refresh the sentence in `README.md` pointing at the live page,
+`https://seekingvega.github.io/alhaka/pages/hackathon-submissions.html`. Then commit only the
+generated qmd and README, message naming the event, project count and category count. Do not
 push. The skill folder itself is committed separately by the user when it changes.
 
 ## Step 6 — Report

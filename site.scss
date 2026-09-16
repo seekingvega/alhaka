@@ -77,3 +77,6 @@ table td, table th { border-color: var(--line); }
 .ours-soft { background-color: var(--ours-soft); }
 .gain { color: var(--gain); }
 .loss { color: var(--loss); }
+
+// The generated submissions page emits .notable as a span inside each project bullet.
+li > .notable, span.notable { display: block; margin-top: calc(var(--space) * 0.5); }

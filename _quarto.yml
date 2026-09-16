@@ -2,9 +2,6 @@ project:
   type: website
   render:
     - "**/*.qmd"
-    - "**/*.md"
-    - "!CLAUDE.md"
-    - "!design.md"
 
 website:
   title: "Alpaca Hackathon Knowledge Agent"
@@ -12,6 +9,10 @@ website:
   llms-txt: true
   navbar:
     right:
+      - text: Submissions
+        href: pages/hackathon-submissions.qmd
+      - text: Posts
+        href: posts.qmd
       - about.qmd
       - icon: github
         href: https://github.com/seekingvega/alhaka

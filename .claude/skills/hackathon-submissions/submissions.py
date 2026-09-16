@@ -1,6 +1,6 @@
 """Research helper for the hackathon-submissions skill: pull one lablab.ai
-hackathon's submissions and render docs/HACKATHON_SUBMISSIONS.md from
-LLM-assigned categories.
+hackathon's submissions and render pages/hackathon-submissions.qmd (a Quarto
+page) from LLM-assigned categories.
 
 Three subcommands, run in order (see SKILL.md for the subagent passes between
 `batch` and `build`):
@@ -13,7 +13,7 @@ Three subcommands, run in order (see SKILL.md for the subagent passes between
 so we page everything newest-first and keep only this event's entries
 client-side, then check the count against the event's live-stats endpoint.
 `batch` writes per-subagent input files. `build` merges the subagents'
-assignment files and renders markdown; it is deterministic and refuses to run
+assignment files and renders the page; it is deterministic and refuses to run
 if any project is missing, duplicated, or in an unknown category.
 
 Stdlib only. Not part of the trading system.
@@ -183,17 +183,25 @@ def build(args: argparse.Namespace) -> None:
 
 
 def anchor(text: str) -> str:
-    a = text.strip().lower()
-    a = re.sub(r"[^\w\s-]", "", a)
-    return a.replace(" ", "-")  # GitHub keeps one hyphen per space, so "a / b" -> "a--b"
+    """Pandoc's auto-identifier rule, which Quarto uses for heading ids."""
+    a = re.sub(r"[^\w\s.-]", "", text.strip().lower())
+    return "-".join(a.split())  # whitespace runs collapse, so "a / b" -> "a-b"
 
 
 def render(cache, scope, cats, groups, order, assigned, args) -> str:
     n = len(scope)
     event_name = cache.get("event_name") or args.event
     sample = (f"the {n} most-voted projects" if args.top else f"all {n} submitted projects")
+    n_cats = sum(1 for k in order if groups[k])
     lines = [
-        "# What the other teams built",
+        "---",
+        'title: "What the other teams built"',
+        f'description: "A category map of {sample} from the {event_name}, '
+        f'in {n_cats} categories by trading approach."',
+        f"date: {cache['fetched']}",
+        "toc: true",
+        "toc-depth: 2",
+        "---",
         "",
         f"A category map of {sample} from the "
         f"[{event_name}]({event_url(args.event)}), built from each team's "
@@ -203,11 +211,6 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
         "writing. Categories were proposed and assigned by an LLM from the "
         "summaries, so boundaries are approximate; see [Method](#method).",
         "",
-        "Contents: " + " · ".join(
-            f"[{cats[k]['name']} ({len(groups[k])})](#{anchor(cats[k]['name'])})"
-            for k in order if groups[k]
-        ) + " · [Category definitions](#category-definitions) · [Method](#method)",
-        "",
         "## Category definitions",
         "",
         "| Category | What it covers | Projects |",
@@ -216,7 +219,7 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
     for k in order:
         if groups[k]:
             lines.append(f"| [{cats[k]['name']}](#{anchor(cats[k]['name'])}) | "
-                         f"{cats[k]['definition']} | {len(groups[k])} |")
+                         f"{cats[k]['definition']} | [{len(groups[k])}]{{.count}} |")
     lines.append("")
 
     for k in order:
@@ -224,14 +227,14 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
             continue
         lines += [f"## {cats[k]['name']}", "", f"{cats[k]['definition']}", ""]
         for s in groups[k]:
-            ours = " **(ours)**" if args.ours and s["uid"] == args.ours else ""
+            ours = " [(ours)]{.ours}" if args.ours and s["uid"] == args.ours else ""
             votes = f"{s['likes']} vote" + ("" if s["likes"] == 1 else "s")
             summary = one_line(s["shortDescription"] or s["description"])
             notable = assigned[s["uid"]].get("notable", "").strip()
             lines.append(f"- **[{s['title']}]({s['url']})** — {s['team']}{ours} · {votes}  ")
             lines.append(f"  {summary}  ")
             if notable:
-                lines.append(f"  *Notable:* {notable}")
+                lines.append(f"  [*Notable:* {notable}]{{.notable}}")
         lines.append("")
 
     lines += [
@@ -285,14 +288,14 @@ def main() -> None:
     b.add_argument("--out", required=True)
     b.set_defaults(fn=batch)
 
-    d = sub.add_parser("build", parents=[common], help="render the markdown from assignments")
+    d = sub.add_parser("build", parents=[common], help="render the Quarto page from assignments")
     d.add_argument("--taxonomy", required=True)
     d.add_argument("--assignments", required=True, help="dir of assign_*.json")
     d.add_argument("--top", type=int, default=0, help="scope: N most-voted (0 = all)")
     d.add_argument("--batch-size", type=int, default=20, help="for the Method note")
     d.add_argument("--ours", default=DEFAULT_OURS,
                    help="uid (team_slug/slug) of our own entry; '' for none")
-    d.add_argument("--out", default="docs/HACKATHON_SUBMISSIONS.md")
+    d.add_argument("--out", default="pages/hackathon-submissions.qmd")
     d.set_defaults(fn=build)
 
     args = p.parse_args()
