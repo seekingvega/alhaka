@@ -9,6 +9,7 @@ project:
 website:
   title: "Alpaca Hackathon Knowledge Agent"
   site-url: https://seekingvega.github.io/alhaka
+  llms-txt: true
   navbar:
     right:
       - about.qmd
