@@ -8,13 +8,12 @@ project:
 
 website:
   title: "Alpaca Hackathon Knowledge Agent"
+  site-url: https://seekingvega.github.io/alhaka
   navbar:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/seekingvega/alhaka
 format:
   html:
     # Themes are rendered from design.tokens.json; see design.md. Edit the JSON, not the theme-*.scss files.

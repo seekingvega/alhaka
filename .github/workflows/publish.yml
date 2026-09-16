@@ -1,0 +1,63 @@
+# Render the Quarto site and deploy it to GitHub Pages.
+#
+# One-time setup in the repo: Settings -> Pages -> Build and deployment ->
+# Source: "GitHub Actions". No gh-pages branch is used; the rendered _site/
+# is uploaded as a Pages artifact and deployed from there.
+#
+# Posts freeze computational output (posts/_metadata.yml), so the runner
+# installs no Python or R. If a post gains executable cells, render it
+# locally and commit the resulting _freeze/ directory.
+
+name: Publish Quarto site
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".claude/**"
+      - "CLAUDE.md"
+      - ".gitignore"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let an in-flight deploy finish; queue the newest push behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.6.39
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Render site
+        run: quarto render
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
