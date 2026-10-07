@@ -187,7 +187,7 @@ A directional signal (technical indicators, momentum, options flow, or an LLM th
 - **[AlphaPilot - Autonomous Options Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/lv/alphapilot-autonomous-options-agent)** — LV · 0 votes  
   An autonomous AI options trading agent that combines quantitative signals, AI reasoning, and deterministic risk controls to discover opportunities, evaluate trades, execute paper orders, and continuously manage…  
   [*Notable:* A decision journal traces each trade from the originating market signal through AI evaluation, risk validation, execution and outcome.]{.notable}
-- **[Autobelay - Long Premium, Short Leash](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/razorsedge/autobelay-long-premium-short-leash)** — RazorsEdge [(1st place · Featherless prize)]{.winner} · 0 votes  
+- **[Autobelay - Long Premium, Short Leash](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/razorsedge/autobelay-long-premium-short-leash)** — RazorsEdge [1st place · Featherless prize]{.winner} · 0 votes  
   An autonomous options agent on Alpaca's MCP server. An open-source model (Featherless) researches bars, chains and news, then proposes defined-risk premium trades; deterministic code sizes, stops and closes every one.…  
   [*Notable:* Model prose is audited against its own inputs, priors are Brier-scored nightly, and the end-of-day critique comes from a model that did not trade.]{.notable}
 - **[Breeze Trading](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/breeze-3/breeze-trading)** — Breeze 3 · 0 votes  
@@ -656,7 +656,7 @@ No named signal or edge: the model reads the market and picks a trade, usually f
 - **[Kairo — Autonomous AI Trading Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/hunterxxxx/kairo-autonomous-ai-trading-agent)** — Hunterxxxx · 0 votes  
   Kairo is an AI-powered autonomous trading agent that analyzes market conditions, evaluates risk, generates trade decisions, and executes paper trades through Alpaca with a transparent, user-friendly trading dashboard.  
   [*Notable:* Generic analyze-thesis-risk-execute pipeline with a dashboard exposing decisions; no specific signal, instrument or safeguard is described.]{.notable}
-- **[Killswitch Capital](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/team-quantus/killswitch-capital)** — Team Quantus [(3rd place)]{.winner} · 0 votes  
+- **[Killswitch Capital](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/team-quantus/killswitch-capital)** — Team Quantus [3rd place]{.winner} · 0 votes  
   An autonomous options trading agent where Claude proposes and fifteen deterministic gates dispose. Reads run through the Alpaca MCP server, every order through the Alpaca CLI; so the model never holds a tool that can…  
   [*Notable:* Reads go through the MCP server, writes through the Alpaca CLI, so the model never holds an order tool; exits are never gated.]{.notable}
 - **[KopTrades Automated Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/koptrades/koptrades-automated-agent)** — KopTrades · 0 votes  
@@ -724,7 +724,7 @@ The headline is the decision architecture: a council, debate, jury or chain of s
 - **[TradePilot AI - Autonomous AI Trading Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/tradepilot/tradepilot-ai-autonomous-ai-trading-agent)** — TradePilot · 128 votes  
   TradePilot AI is an autonomous AI trading platform that analyzes live markets, generates trading decisions, manages risk, and executes trades through Alpaca with automated position protection.  
   [*Notable:* Position management adds breakeven protection alongside stop-loss and take-profit, with 5% per-trade and 50% portfolio exposure caps.]{.notable}
-- **[Should-AI Buy?](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/trioblessingmiracle/should-ai-buy)** — SquadBlessingMiracle [(2nd place)]{.winner} · 12 votes  
+- **[Should-AI Buy?](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/trioblessingmiracle/should-ai-buy)** — SquadBlessingMiracle [2nd place]{.winner} · 12 votes  
   Autonomous AI Trading Council that challenges every trade before capital is deployed.  
   [*Notable:* A dedicated red-team agent asks why the trade should NOT be taken; a 0-100% human risk slider scales capital in real time.]{.notable}
 - **[Trade Guardian](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/upskillers/trade-guardian)** — Upstarters · 7 votes  
@@ -903,7 +903,7 @@ The edge is measured volatility, not direction: implied vs realized or forecast 
 - **[Contour — the measurement picks the structure](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/fluffymargins/contour-the-measurement-picks-the-structure)** — FluffyMargins · 1 vote  
   Everyone sells iron condors — both wings, unconditionally, so half the time you sell the side that isn't rich. Contour measures 25-delta skew first and sells only the rich side, on SPY, QQQ and IWM, behind nineteen risk…  
   [*Notable:* Skew z-score decides put spread, call spread or condor; execute.py never imports the model layer, and a missing model halves size.]{.notable}
-- **[Deflow - Autonomous Multi-Agent Options Desk](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/deflow/deflow-autonomous-multi-agent-options-desk)** — Deflow [(Social engagement prize)]{.winner} · 1 vote  
+- **[Deflow - Autonomous Multi-Agent Options Desk](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/deflow/deflow-autonomous-multi-agent-options-desk)** — Deflow [Social engagement prize]{.winner} · 1 vote  
   Four AI agents propose. Twelve deterministic breakers decide. No model touches capital. Deflow trades the gap between implied and realised volatility with defined-risk spreads on Alpaca paper, and hash-chains every fill…  
   [*Notable:* Compares implied vol to a jump-robust realized-vol forecast (bipower variation); sells premium when rich, buys convexity when cheap, refuses inside the band.]{.notable}
 - **[Devastra Trading](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/devastra/devastra-trading)** — Devastra · 1 vote  
@@ -1025,7 +1025,7 @@ The edge is measured volatility, not direction: implied vs realized or forecast 
 
 Entries are triggered by news flow, social sentiment, filings, insider or congressional disclosures, or a scheduled catalyst such as earnings (IV-crush condors, pre-report straddles) rather than by price signals.
 
-- **[PRISM](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/iskolar/prism)** — ISKOLAR [(Social engagement prize)]{.winner} · 5 votes  
+- **[PRISM](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/iskolar/prism)** — ISKOLAR [Social engagement prize]{.winner} · 5 votes  
   PRISM combines multi-agent AI with deterministic risk controls to analyze markets, govern trades, explain decisions, and test alternatives through ShadowFund.  
   [*Notable:* ShadowFund counterfactuals compare each decision against cash, smaller size, contrarian and unconstrained-AI alternatives to measure whether decisions were better.]{.notable}
 - **[AegisAlpha — Autonomous Event-Driven Options Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/zenith/aegisalpha-autonomous-event-driven-options-agent)** — Zenith · 3 votes  

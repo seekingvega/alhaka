@@ -141,7 +141,7 @@ def batch(args: argparse.Namespace) -> None:
 
 BULLET = re.compile(
     r"^- \*\*\[(?P<title>.+?)\]\((?P<url>\S+?)\)\*\* — (?P<team>.+?)"
-    r"(?: \[\([^)]+\)\]\{\.(?:ours|winner)\})* · (?P<likes>\d+) votes?  $")
+    r"(?: \[[^\]]+\]\{\.(?:ours|winner)\})* · (?P<likes>\d+) votes?  $")
 
 
 def reverse(args: argparse.Namespace) -> None:
@@ -326,7 +326,8 @@ def render(cache, scope, cats, groups, order, assigned, winners, args) -> str:
         for s in groups[k]:
             ours = " [(ours)]{.ours}" if args.ours and s["uid"] == args.ours else ""
             won = badges(winners, s["uid"])
-            badge = " [(" + " · ".join(won) + ")]{.winner}" if won else ""
+            # no parens: .winner is a filled chip, which does its own bracketing
+            badge = " [" + " · ".join(won) + "]{.winner}" if won else ""
             votes = f"{s['likes']} vote" + ("" if s["likes"] == 1 else "s")
             summary = one_line(s["shortDescription"] or s["description"])
             notable = assigned[s["uid"]].get("notable", "").strip()
