@@ -6,7 +6,32 @@ toc: true
 toc-depth: 2
 ---
 
-A category map of all 427 submitted projects from the [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon), built from each team's written summary on lablab.ai as fetched on 2026-09-04. Only the summaries were read; presentations and repositories were not reviewed. Community votes are shown for context. Winners were not announced at the time of writing. Categories were proposed and assigned by an LLM from the summaries, so boundaries are approximate; see [Method](#method).
+A category map of all 427 submitted projects from the [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon), built from each team's written summary on lablab.ai as fetched on 2026-09-04. Only the summaries were read; presentations and repositories were not reviewed. Community votes are shown for context. The winners, announced on 2026-10-07, are marked [like this]{.winner} and collected under [Winners](#winners). Categories were proposed and assigned by an LLM from the summaries, so boundaries are approximate; see [Method](#method).
+
+## Winners
+
+Announced on 2026-10-07, after this map was built, so the categories below were assigned without knowing them. The 6 awards went to 5 projects, sitting in 5 different categories. Community votes did not predict the result: the winners drew between 0 and 12 votes, in a field whose most-liked project drew 135.
+
+### Main prize
+
+- [1st place]{.winner} **[Autobelay - Long Premium, Short Leash](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/razorsedge/autobelay-long-premium-short-leash)** — RazorsEdge · 0 votes · [Directional options on signals](#directional-options-on-signals)  
+  [*Judges:* The model pitches trades, hard-coded rules decide. +5.1% over 15 round trips during judging. Winning with discipline.]{.notable}
+- [2nd place]{.winner} **[Should-AI Buy?](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/trioblessingmiracle/should-ai-buy)** — SquadBlessingMiracle · 12 votes · [Multi-agent debate / committee decisions](#multi-agent-debate-committee-decisions)  
+  [*Judges:* A council of agents plus a red-team skeptic that tears every trade apart before it goes live. 891 tests, every single one passing.]{.notable}
+- [3rd place]{.winner} **[Killswitch Capital](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/team-quantus/killswitch-capital)** — Team Quantus · 0 votes · [LLM-discretionary agents behind a governance layer](#llm-discretionary-agents-behind-a-governance-layer)  
+  [*Judges:* Claude Opus 5 reads the market, then 15 gates can shrink or kill every order, but never grow one. Running unattended and in the green.]{.notable}
+
+### Social engagement channel prize
+
+- [Social engagement prize]{.winner} **[Deflow - Autonomous Multi-Agent Options Desk](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/deflow/deflow-autonomous-multi-agent-options-desk)** — Deflow · 1 vote · [Volatility relative value & regime-routed structures](#volatility-relative-value-regime-routed-structures)  
+  [*Judges:* The LLM gets one decision, and a risk auditor runs 1,000 simulated market paths before anything trades. Ruthless.]{.notable}
+- [Social engagement prize]{.winner} **[PRISM](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/iskolar/prism)** — ISKOLAR · 5 votes · [News, sentiment & scheduled-event trading](#news-sentiment-scheduled-event-trading)  
+  [*Judges:* Seven agents, none allowed to place a trade. Every decision traceable from headline to execution.]{.notable}
+
+### Featherless prize
+
+- [Featherless prize]{.winner} **[Autobelay - Long Premium, Short Leash](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/razorsedge/autobelay-long-premium-short-leash)** — RazorsEdge · 0 votes · [Directional options on signals](#directional-options-on-signals)  
+  [*Judges:* Twice on the podium.]{.notable}
 
 ## Category definitions
 
@@ -162,7 +187,7 @@ A directional signal (technical indicators, momentum, options flow, or an LLM th
 - **[AlphaPilot - Autonomous Options Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/lv/alphapilot-autonomous-options-agent)** — LV · 0 votes  
   An autonomous AI options trading agent that combines quantitative signals, AI reasoning, and deterministic risk controls to discover opportunities, evaluate trades, execute paper orders, and continuously manage…  
   [*Notable:* A decision journal traces each trade from the originating market signal through AI evaluation, risk validation, execution and outcome.]{.notable}
-- **[Autobelay - Long Premium, Short Leash](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/razorsedge/autobelay-long-premium-short-leash)** — RazorsEdge · 0 votes  
+- **[Autobelay - Long Premium, Short Leash](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/razorsedge/autobelay-long-premium-short-leash)** — RazorsEdge [(1st place · Featherless prize)]{.winner} · 0 votes  
   An autonomous options agent on Alpaca's MCP server. An open-source model (Featherless) researches bars, chains and news, then proposes defined-risk premium trades; deterministic code sizes, stops and closes every one.…  
   [*Notable:* Model prose is audited against its own inputs, priors are Brier-scored nightly, and the end-of-day critique comes from a model that did not trade.]{.notable}
 - **[Breeze Trading](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/breeze-3/breeze-trading)** — Breeze 3 · 0 votes  
@@ -631,7 +656,7 @@ No named signal or edge: the model reads the market and picks a trade, usually f
 - **[Kairo — Autonomous AI Trading Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/hunterxxxx/kairo-autonomous-ai-trading-agent)** — Hunterxxxx · 0 votes  
   Kairo is an AI-powered autonomous trading agent that analyzes market conditions, evaluates risk, generates trade decisions, and executes paper trades through Alpaca with a transparent, user-friendly trading dashboard.  
   [*Notable:* Generic analyze-thesis-risk-execute pipeline with a dashboard exposing decisions; no specific signal, instrument or safeguard is described.]{.notable}
-- **[Killswitch Capital](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/team-quantus/killswitch-capital)** — Team Quantus · 0 votes  
+- **[Killswitch Capital](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/team-quantus/killswitch-capital)** — Team Quantus [(3rd place)]{.winner} · 0 votes  
   An autonomous options trading agent where Claude proposes and fifteen deterministic gates dispose. Reads run through the Alpaca MCP server, every order through the Alpaca CLI; so the model never holds a tool that can…  
   [*Notable:* Reads go through the MCP server, writes through the Alpaca CLI, so the model never holds an order tool; exits are never gated.]{.notable}
 - **[KopTrades Automated Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/koptrades/koptrades-automated-agent)** — KopTrades · 0 votes  
@@ -699,7 +724,7 @@ The headline is the decision architecture: a council, debate, jury or chain of s
 - **[TradePilot AI - Autonomous AI Trading Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/tradepilot/tradepilot-ai-autonomous-ai-trading-agent)** — TradePilot · 128 votes  
   TradePilot AI is an autonomous AI trading platform that analyzes live markets, generates trading decisions, manages risk, and executes trades through Alpaca with automated position protection.  
   [*Notable:* Position management adds breakeven protection alongside stop-loss and take-profit, with 5% per-trade and 50% portfolio exposure caps.]{.notable}
-- **[Should-AI Buy?](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/trioblessingmiracle/should-ai-buy)** — SquadBlessingMiracle · 12 votes  
+- **[Should-AI Buy?](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/trioblessingmiracle/should-ai-buy)** — SquadBlessingMiracle [(2nd place)]{.winner} · 12 votes  
   Autonomous AI Trading Council that challenges every trade before capital is deployed.  
   [*Notable:* A dedicated red-team agent asks why the trade should NOT be taken; a 0-100% human risk slider scales capital in real time.]{.notable}
 - **[Trade Guardian](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/upskillers/trade-guardian)** — Upstarters · 7 votes  
@@ -878,7 +903,7 @@ The edge is measured volatility, not direction: implied vs realized or forecast 
 - **[Contour — the measurement picks the structure](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/fluffymargins/contour-the-measurement-picks-the-structure)** — FluffyMargins · 1 vote  
   Everyone sells iron condors — both wings, unconditionally, so half the time you sell the side that isn't rich. Contour measures 25-delta skew first and sells only the rich side, on SPY, QQQ and IWM, behind nineteen risk…  
   [*Notable:* Skew z-score decides put spread, call spread or condor; execute.py never imports the model layer, and a missing model halves size.]{.notable}
-- **[Deflow - Autonomous Multi-Agent Options Desk](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/deflow/deflow-autonomous-multi-agent-options-desk)** — Deflow · 1 vote  
+- **[Deflow - Autonomous Multi-Agent Options Desk](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/deflow/deflow-autonomous-multi-agent-options-desk)** — Deflow [(Social engagement prize)]{.winner} · 1 vote  
   Four AI agents propose. Twelve deterministic breakers decide. No model touches capital. Deflow trades the gap between implied and realised volatility with defined-risk spreads on Alpaca paper, and hash-chains every fill…  
   [*Notable:* Compares implied vol to a jump-robust realized-vol forecast (bipower variation); sells premium when rich, buys convexity when cheap, refuses inside the band.]{.notable}
 - **[Devastra Trading](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/devastra/devastra-trading)** — Devastra · 1 vote  
@@ -1000,7 +1025,7 @@ The edge is measured volatility, not direction: implied vs realized or forecast 
 
 Entries are triggered by news flow, social sentiment, filings, insider or congressional disclosures, or a scheduled catalyst such as earnings (IV-crush condors, pre-report straddles) rather than by price signals.
 
-- **[PRISM](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/iskolar/prism)** — ISKOLAR · 5 votes  
+- **[PRISM](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/iskolar/prism)** — ISKOLAR [(Social engagement prize)]{.winner} · 5 votes  
   PRISM combines multi-agent AI with deterministic risk controls to analyze markets, govern trades, explain decisions, and test alternatives through ShadowFund.  
   [*Notable:* ShadowFund counterfactuals compare each decision against cash, smaller size, contrarian and unconstrained-AI alternatives to measure whether decisions were better.]{.notable}
 - **[AegisAlpha — Autonomous Event-Driven Options Agent](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon/zenith/aegisalpha-autonomous-event-driven-options-agent)** — Zenith · 3 votes  
@@ -1375,5 +1400,7 @@ Not a trading agent (unrelated apps, placeholders) or too vague to place.
 ## Method
 
 Submissions were pulled from lablab's public submissions API (`/api/v4/submissions`, paged, then filtered to this event) by the `.claude/skills/hackathon-submissions` skill, whose script also renders this page. Each project's description field, the same text shown on its lablab page, was the only input. Projects were split into batches of 20 and read by parallel Claude subagents in two passes: the first proposed categories from what each batch's agents actually do (the trading approach, not the asset class or tech stack), which were merged by hand into the list above; the second assigned every project to exactly one category and wrote the *Notable* line, grounded in the summary only.
+
+The winners are not an output of this pipeline. They were transcribed from the organisers' announcement of 2026-10-07, together with the organisers' own one-line citations, into `.claude/skills/hackathon-submissions/winners.json` and matched to projects by uid at render time, after the categories were assigned.
 
 Caveats: summaries are marketing copy capped at 2,000 characters, so a project may do more or less than it claims. A project that combines several approaches sits under its primary one. Vote counts are community likes on lablab, not judging results.

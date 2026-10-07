@@ -124,6 +124,27 @@ uv run python $SKILL/submissions.py build --event $EVENT --batch-size 20 \
 Budget from 2026: about 50k subagent tokens and 90 s per 20-project batch per pass, so a
 430-project run is roughly 44 agents and 2.5M tokens.
 
+## Step 3b — Winners, once the organisers announce them
+
+Winners are not an output of the passes: they are hand-transcribed from the organisers'
+announcement into `winners.json` next to this file, and `build` picks it up by default
+(`--winners ''` turns it off). One entry per award, so a project that wins twice appears
+twice; `label` is the badge text, `citation` the organisers' own wording. `build` fails if a
+uid is unknown or outside the `--top` scope, so transcribe uids, not titles.
+
+If the scratchpad from the original run is gone (it usually is), recover equivalent inputs
+from the page itself and prove the round-trip before changing anything:
+
+```bash
+uv run python $SKILL/submissions.py reverse --event $EVENT --out $SCRATCH
+uv run python $SKILL/submissions.py build --event $EVENT --winners '' \
+  --taxonomy $SCRATCH/taxonomy.json --assignments $SCRATCH/assign --out $SCRATCH/roundtrip.qmd
+diff pages/hackathon-submissions.qmd $SCRATCH/roundtrip.qmd   # must be empty
+```
+
+Only then re-run `build` for real, with `--winners`. `reverse` skips the Winners section, so
+it is safe to run against a page that already has one. Never hand-edit the generated page.
+
 ## Step 4 — Verify
 
 `build` already guarantees every uid is assigned exactly once to a known category. Then:
@@ -138,6 +159,12 @@ print('unresolved anchors:', links-heads or 'none')
 print('table sum:', sum(int(x) for x in re.findall(r'\| \[(\d+)\]\{\.count\} \|',md)), '| entries:', md.count('\n- **['))
 w=[len(n.split()) for n in re.findall(r'\*Notable:\* (.+?)\]\{\.notable\}',md)]; print('notables:',len(w),'max words',max(w))
 print('ours marked:', '{.ours}' in md)
+import json,pathlib
+w=pathlib.Path('.claude/skills/hackathon-submissions/winners.json')
+if w.exists():
+    a=[x for t in json.loads(w.read_text())['tracks'] for x in t['awards']]
+    print('badges:',md.count('{.winner}'),'expected',1+len(a)+len({x['uid'] for x in a}))
+    print('winners missing:',[x['uid'] for x in a if x['uid'] not in md] or 'none')
 EOF
 quarto render pages/hackathon-submissions.qmd 2>&1 | tail -3
 ```

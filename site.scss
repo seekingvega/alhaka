@@ -74,6 +74,9 @@ table td, table th { border-color: var(--line); }
 .count { font-family: var(--font-display); color: var(--accent); }
 .notable { background-color: var(--accent-soft); border-left: 3px solid var(--accent); padding: var(--space) calc(var(--space) * 1.5); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
 .ours { color: var(--ours); font-family: var(--font-display); }
+// The keystone marker: an award is the one thing worth looking at on this page.
+// Uppercase so it does not read as a link, which is the same accent colour.
+.winner { color: var(--accent); font-family: var(--font-display); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.06em; }
 .ours-soft { background-color: var(--ours-soft); }
 .gain { color: var(--gain); }
 .loss { color: var(--loss); }

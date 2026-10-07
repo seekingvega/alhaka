@@ -137,6 +137,70 @@ def batch(args: argparse.Namespace) -> None:
     print(f"wrote {n} batch files ({len(subs)} projects) to {out}")
 
 
+# -------------------------------------------------------------- reverse ----
+
+BULLET = re.compile(
+    r"^- \*\*\[(?P<title>.+?)\]\((?P<url>\S+?)\)\*\* — (?P<team>.+?)"
+    r"(?: \[\([^)]+\)\]\{\.(?:ours|winner)\})* · (?P<likes>\d+) votes?  $")
+
+
+def reverse(args: argparse.Namespace) -> None:
+    """Rebuild build's inputs from an already-rendered page.
+
+    The cache and the two subagent passes live in a session scratchpad and do
+    not survive it, so a rendering-only change to an existing page would
+    otherwise mean hand-editing generated markdown. This recovers equivalent
+    inputs; re-running `build` on them must reproduce the page byte-for-byte
+    before any rendering change is made (see SKILL.md Step 3b).
+    """
+    doc = Path(args.page).read_text()
+    out = Path(args.out)
+    (out / "assign").mkdir(parents=True, exist_ok=True)
+
+    fetched = re.search(r"^date: (\S+)$", doc, re.M).group(1)
+    event_name = re.search(r"\[([^\]]+)\]\(https://lablab\.ai/ai-hackathons/", doc).group(1)
+    defs = dict(re.findall(
+        r"^\| \[([^\]]+)\]\(#[^)]+\) \| (.+?) \| \[\d+\]\{\.count\} \|$", doc, re.M))
+
+    body = doc.split("## Category definitions", 1)[1].split("## Method", 1)[0]
+    sections = re.split(r"^## (.+)$", body, flags=re.M)[1:]
+    subs, assigns, taxonomy = [], [], []
+    for name, text in zip(sections[0::2], sections[1::2]):
+        if name not in defs:  # e.g. the Winners section, which build re-renders
+            continue
+        key = anchor(name)
+        taxonomy.append({"key": key, "name": name, "definition": defs[name]})
+        lines = text.split("\n")
+        i = 0
+        while i < len(lines):
+            m = BULLET.match(lines[i])
+            if not m:
+                i += 1
+                continue
+            team_slug, slug = m["url"].rstrip("/").split("/")[-2:]
+            uid = f"{team_slug}/{slug}"
+            summary, notable = lines[i + 1].strip(), ""
+            if i + 2 < len(lines) and lines[i + 2].lstrip().startswith("[*Notable:*"):
+                notable = lines[i + 2].strip()[len("[*Notable:*"):]
+                notable = notable.removesuffix("]{.notable}").strip()
+                i += 1
+            subs.append({"uid": uid, "slug": slug, "title": m["title"], "team": m["team"],
+                         "team_slug": team_slug, "likes": int(m["likes"]), "url": m["url"],
+                         "tech": [], "shortDescription": summary, "description": ""})
+            assigns.append({"uid": uid, "category_key": key, "notable": notable})
+            i += 2
+
+    subs.sort(key=lambda s: (-s["likes"], s["title"].lower()))  # fetch's own order
+    cache_path(args.event).parent.mkdir(exist_ok=True)
+    cache_path(args.event).write_text(json.dumps(
+        {"fetched": fetched, "event": args.event, "event_name": event_name,
+         "submissions": subs}, indent=1))
+    (out / "taxonomy.json").write_text(json.dumps(taxonomy, indent=1))
+    (out / "assign" / "assign_00.json").write_text(json.dumps(assigns, indent=1))
+    print(f"{len(subs)} projects, {len(taxonomy)} categories, fetched {fetched}\n"
+          f"wrote {cache_path(args.event)}, {out}/taxonomy.json, {out}/assign/assign_00.json")
+
+
 # ---------------------------------------------------------------- build ----
 
 def build(args: argparse.Namespace) -> None:
@@ -165,6 +229,8 @@ def build(args: argparse.Namespace) -> None:
     for s in scope:
         if s["uid"] not in assigned:
             problems.append(f"missing assignment for {s['uid']}")
+
+    winners = load_winners(args, by_uid, {s["uid"] for s in scope}, problems)
     if problems:
         print("\n".join(problems))
         sys.exit(f"{len(problems)} problem(s); doc not written")
@@ -176,10 +242,34 @@ def build(args: argparse.Namespace) -> None:
     order.sort(key=lambda k: (-len(groups[k]), cats[k]["name"].lower()))
     order.append("other")
 
-    md = render(cache, scope, cats, groups, order, assigned, args)
+    md = render(cache, scope, cats, groups, order, assigned, winners, args)
     Path(args.out).write_text(md)
     print(f"wrote {args.out}: {len(scope)} projects in "
           f"{sum(1 for k in order if groups[k])} categories")
+
+
+def load_winners(args, by_uid, in_scope, problems) -> dict:
+    """Read the awards file, if any. Winners come from the organisers'
+    announcement, not from the summaries, so this is hand-maintained data."""
+    if not args.winners:
+        return {}
+    w = json.loads(Path(args.winners).read_text())
+    if w.get("event") != args.event:
+        problems.append(f"{args.winners}: for event {w.get('event')!r}, not {args.event!r}")
+        return {}
+    for track in w["tracks"]:
+        for a in track["awards"]:
+            if a["uid"] not in by_uid:
+                problems.append(f"{args.winners}: unknown uid {a['uid']!r}")
+            elif a["uid"] not in in_scope:
+                problems.append(f"{args.winners}: {a['uid']} is outside the --top scope")
+    return w
+
+
+def badges(winners: dict, uid: str) -> list[str]:
+    """Every award label this project holds, in track order."""
+    return [a["label"] for t in winners.get("tracks", [])
+            for a in t["awards"] if a["uid"] == uid]
 
 
 def anchor(text: str) -> str:
@@ -188,11 +278,15 @@ def anchor(text: str) -> str:
     return "-".join(a.split())  # whitespace runs collapse, so "a / b" -> "a-b"
 
 
-def render(cache, scope, cats, groups, order, assigned, args) -> str:
+def render(cache, scope, cats, groups, order, assigned, winners, args) -> str:
     n = len(scope)
     event_name = cache.get("event_name") or args.event
     sample = (f"the {n} most-voted projects" if args.top else f"all {n} submitted projects")
     n_cats = sum(1 for k in order if groups[k])
+    won = ("The winners, announced on "
+           f"{winners['announced']}, are marked [like this]{{.winner}} and collected "
+           "under [Winners](#winners)." if winners else
+           "Winners were not announced at the time of writing.")
     lines = [
         "---",
         'title: "What the other teams built"',
@@ -207,10 +301,13 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
         f"[{event_name}]({event_url(args.event)}), built from each team's "
         f"written summary on lablab.ai as fetched on {cache['fetched']}. Only the summaries "
         "were read; presentations and repositories were not reviewed. Community "
-        "votes are shown for context. Winners were not announced at the time of "
-        "writing. Categories were proposed and assigned by an LLM from the "
-        "summaries, so boundaries are approximate; see [Method](#method).",
+        f"votes are shown for context. {won} Categories were proposed and assigned "
+        "by an LLM from the summaries, so boundaries are approximate; see "
+        "[Method](#method).",
         "",
+    ]
+    lines += winners_section(winners, scope, assigned, cats)
+    lines += [
         "## Category definitions",
         "",
         "| Category | What it covers | Projects |",
@@ -228,10 +325,13 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
         lines += [f"## {cats[k]['name']}", "", f"{cats[k]['definition']}", ""]
         for s in groups[k]:
             ours = " [(ours)]{.ours}" if args.ours and s["uid"] == args.ours else ""
+            won = badges(winners, s["uid"])
+            badge = " [(" + " · ".join(won) + ")]{.winner}" if won else ""
             votes = f"{s['likes']} vote" + ("" if s["likes"] == 1 else "s")
             summary = one_line(s["shortDescription"] or s["description"])
             notable = assigned[s["uid"]].get("notable", "").strip()
-            lines.append(f"- **[{s['title']}]({s['url']})** — {s['team']}{ours} · {votes}  ")
+            lines.append(f"- **[{s['title']}]({s['url']})** — {s['team']}"
+                         f"{ours}{badge} · {votes}  ")
             lines.append(f"  {summary}  ")
             if notable:
                 lines.append(f"  [*Notable:* {notable}]{{.notable}}")
@@ -251,6 +351,14 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
         "the second assigned every project to exactly one category and wrote the "
         "*Notable* line, grounded in the summary only.",
         "",
+        *([] if not winners else [
+            f"The winners are not an output of this pipeline. They were "
+            f"transcribed from the organisers' announcement of "
+            f"{winners['announced']}, together with the organisers' own one-line "
+            f"citations, into `{SKILL_PATH}/winners.json` and matched to projects "
+            f"by uid at render time, after the categories were assigned.",
+            "",
+        ]),
         "Caveats: summaries are marketing copy capped at 2,000 characters, so a "
         "project may do more or less than it claims. A project that combines "
         "several approaches sits under its primary one. Vote counts are community "
@@ -258,6 +366,43 @@ def render(cache, scope, cats, groups, order, assigned, args) -> str:
         "",
     ]
     return "\n".join(lines)
+
+
+def winners_section(winners, scope, assigned, cats) -> list[str]:
+    """The awards, grouped by track, each linking into its category below."""
+    if not winners:
+        return []
+    by_uid = {s["uid"]: s for s in scope}
+    uids = {a["uid"] for t in winners["tracks"] for a in t["awards"]}
+    n_awards = sum(len(t["awards"]) for t in winners["tracks"])
+    n_cats = len({assigned[u]["category_key"] for u in uids})
+    likes = sorted(by_uid[u]["likes"] for u in uids)
+    top = max(s["likes"] for s in scope)
+
+    lines = [
+        "## Winners",
+        "",
+        f"Announced on {winners['announced']}, after this map was built, so the "
+        "categories below were assigned without knowing them. "
+        f"The {n_awards} awards went to {len(uids)} projects, sitting in {n_cats} "
+        "different categories. "
+        "Community votes did not predict the result: the winners drew between "
+        f"{likes[0]} and {likes[-1]} votes, in a field whose most-liked project "
+        f"drew {top}.",
+        "",
+    ]
+    for track in winners["tracks"]:
+        lines += [f"### {track['name']}", ""]
+        for a in track["awards"]:
+            s = by_uid[a["uid"]]
+            cat = cats[assigned[a["uid"]]["category_key"]]["name"]
+            votes = f"{s['likes']} vote" + ("" if s["likes"] == 1 else "s")
+            lines.append(f"- [{a['label']}]{{.winner}} **[{s['title']}]({s['url']})** "
+                         f"— {s['team']} · {votes} · [{cat}](#{anchor(cat)})  ")
+            if a.get("citation"):
+                lines.append(f"  [*Judges:* {a['citation']}]{{.notable}}")
+        lines.append("")
+    return lines
 
 
 def one_line(text: str, limit: int = 220) -> str:
@@ -288,11 +433,19 @@ def main() -> None:
     b.add_argument("--out", required=True)
     b.set_defaults(fn=batch)
 
+    r = sub.add_parser("reverse", parents=[common],
+                       help="rebuild build's inputs from an already-rendered page")
+    r.add_argument("--page", default="pages/hackathon-submissions.qmd")
+    r.add_argument("--out", required=True, help="scratch dir for taxonomy.json and assign/")
+    r.set_defaults(fn=reverse)
+
     d = sub.add_parser("build", parents=[common], help="render the Quarto page from assignments")
     d.add_argument("--taxonomy", required=True)
     d.add_argument("--assignments", required=True, help="dir of assign_*.json")
     d.add_argument("--top", type=int, default=0, help="scope: N most-voted (0 = all)")
     d.add_argument("--batch-size", type=int, default=20, help="for the Method note")
+    d.add_argument("--winners", default=f"{SKILL_PATH}/winners.json",
+                   help="awards file from the organisers' announcement; '' for none")
     d.add_argument("--ours", default=DEFAULT_OURS,
                    help="uid (team_slug/slug) of our own entry; '' for none")
     d.add_argument("--out", default="pages/hackathon-submissions.qmd")

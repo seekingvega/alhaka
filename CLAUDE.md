@@ -65,9 +65,12 @@ shape, which is what you need to understand edits across its five files:
 4. **Pass 2** — one subagent per batch follows `pass2_assign.md` and assigns every project
    to exactly one category with a one-line "notable".
 5. `build` merges assignments deterministically and renders `pages/hackathon-submissions.qmd`
-   (YAML frontmatter with `toc: true`, then markdown using the `.notable`, `.ours` and `.count`
-   helper classes). It refuses to write if any uid is missing, duplicated, or in an unknown
-   category. Fix the assignment files rather than weakening that gate.
+   (YAML frontmatter with `toc: true`, then markdown using the `.notable`, `.ours`, `.winner`
+   and `.count` helper classes). It refuses to write if any uid is missing, duplicated, or in
+   an unknown category. Fix the assignment files rather than weakening that gate.
+6. `winners.json` is hand-transcribed from the organisers' announcement, keyed on the same
+   uids, and read by `build` by default. It is the only part of the page that does not come
+   from the summaries.
 
 Invariants that are easy to break:
 
@@ -80,6 +83,10 @@ Invariants that are easy to break:
   dropped, whitespace runs collapsed to one hyphen), so "a / b" → `a-b`; `anchor()` in
   `submissions.py` implements this and the category-definitions table depends on it. GitHub's
   `a--b` rule is wrong for the rendered site.
+- Re-rendering the page needs the cache plus the pass-1/pass-2 outputs, which live in a
+  session scratchpad and do not survive. For a rendering-only change, `submissions.py reverse`
+  recovers equivalent inputs from the committed qmd; check that `build` on them reproduces the
+  page byte-for-byte before re-rendering. Never hand-edit the generated page.
 - The pipeline runs in two stages with a mandatory stop: test on the top 10, report, then
   wait for an explicit go-ahead before the full ~430-project run. Do not collapse them.
 - Be gentle with lablab: about 30 sequential GETs total, no retry loops, no parallel fetches.

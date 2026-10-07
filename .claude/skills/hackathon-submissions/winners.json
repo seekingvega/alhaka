@@ -1,0 +1,52 @@
+{
+ "event": "alpaca-ai-trading-agents-hackathon",
+ "announced": "2026-10-07",
+ "source": "Official organiser announcement; citations are the organisers' own wording.",
+ "tracks": [
+  {
+   "name": "Main prize",
+   "awards": [
+    {
+     "label": "1st place",
+     "uid": "razorsedge/autobelay-long-premium-short-leash",
+     "citation": "The model pitches trades, hard-coded rules decide. +5.1% over 15 round trips during judging. Winning with discipline."
+    },
+    {
+     "label": "2nd place",
+     "uid": "trioblessingmiracle/should-ai-buy",
+     "citation": "A council of agents plus a red-team skeptic that tears every trade apart before it goes live. 891 tests, every single one passing."
+    },
+    {
+     "label": "3rd place",
+     "uid": "team-quantus/killswitch-capital",
+     "citation": "Claude Opus 5 reads the market, then 15 gates can shrink or kill every order, but never grow one. Running unattended and in the green."
+    }
+   ]
+  },
+  {
+   "name": "Social engagement channel prize",
+   "awards": [
+    {
+     "label": "Social engagement prize",
+     "uid": "deflow/deflow-autonomous-multi-agent-options-desk",
+     "citation": "The LLM gets one decision, and a risk auditor runs 1,000 simulated market paths before anything trades. Ruthless."
+    },
+    {
+     "label": "Social engagement prize",
+     "uid": "iskolar/prism",
+     "citation": "Seven agents, none allowed to place a trade. Every decision traceable from headline to execution."
+    }
+   ]
+  },
+  {
+   "name": "Featherless prize",
+   "awards": [
+    {
+     "label": "Featherless prize",
+     "uid": "razorsedge/autobelay-long-premium-short-leash",
+     "citation": "Twice on the podium."
+    }
+   ]
+  }
+ ]
+}
